@@ -1,0 +1,2 @@
+# WeChatWorldCloudGenerator
+根据iOS微信客户端数据库生成与某人的聊天词云
