@@ -1,0 +1,4 @@
+jieba~=0.42.1
+matplotlib~=3.3.3
+pandas~=1.2.0
+wordcloud~=1.8.1
