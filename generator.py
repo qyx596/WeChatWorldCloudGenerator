@@ -9,16 +9,17 @@ from wordcloud import WordCloud
 
 jieba.enable_paddle()  # 启用paddlepaddle分词
 
-DATABASE_PATH = 'WECHATFILES/wechat.sqlite'  # 微信聊天记录数据库路径
+DATABASE_PATH = 'WECHATFILES/wechat.sqlite'  # 微信聊天记录数据库路径(必填)
 CSV_PATH = 'WECHATFILES/cleandata.csv'  # 处理后聊天记录保存路径
-CONTACTBASE_PATH = 'WECHATFILES/WCDB_Contact.sqlite'  # 微信联系人数据库路径
+CONTACTBASE_PATH = 'WECHATFILES/WCDB_Contact.sqlite'  # 微信联系人数据库路径(必填)
 WORDLIST_PATH = 'WECHATFILES/wordlist.txt'  # 分词保存路径
 MASK_PATH = 'SOURCE/heart.jpg'  # 词云背景图片路径
 FONT_PATH = 'SOURCE/simhei.ttf'  # 词云字体路径
 WORDCLOUD_IMAGE_PATH = 'result.png'  # 词云图片保存路径
-NICK_NAME = ''  # 联系人备注或微信号
+NICK_NAME = ''  # 联系人备注或微信号(必填)
 
 
+# 获取联系人id的md5值
 def getContact(CONTACTBASE_PATH=CONTACTBASE_PATH):
     try:
         conn_contact = sqlite3.connect(CONTACTBASE_PATH)
@@ -33,6 +34,7 @@ def getContact(CONTACTBASE_PATH=CONTACTBASE_PATH):
     return wechat_id_encode
 
 
+# 获取对应联系人聊天记录存储到csv文件
 def getChat2csv(wechat_id_encode, DATABASE_PATH=DATABASE_PATH):
     try:
         conn_chat = sqlite3.connect(DATABASE_PATH)
@@ -46,6 +48,7 @@ def getChat2csv(wechat_id_encode, DATABASE_PATH=DATABASE_PATH):
         print('获取聊天记录失败！')
 
 
+# 中文分词
 def csvProcess(CSV_PATH=CSV_PATH, WORDLIST_PATH=WORDLIST_PATH):
     print('开始分词...')
     try:
@@ -67,6 +70,7 @@ def csvProcess(CSV_PATH=CSV_PATH, WORDLIST_PATH=WORDLIST_PATH):
         print('分词失败！')
 
 
+# 设置词云色相
 def random_Color_func(word=None, font_size=None, position=None, orientation=None, font_path=None, random_state=None):
     h = random.randint(320, 350)
     s = int(100.0 * 255.0 / 255.0)
@@ -74,6 +78,7 @@ def random_Color_func(word=None, font_size=None, position=None, orientation=None
     return "hsl({}, {}%, {}%)".format(h, s, l)
 
 
+# 生成词云
 def generateImage(MASK_PATH=MASK_PATH, WORDLIST_PATH=WORDLIST_PATH, FONT_PATH=FONT_PATH,
                   WORDCLOUD_IMAGE_PATH=WORDCLOUD_IMAGE_PATH):
     try:
